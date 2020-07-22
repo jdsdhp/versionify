@@ -1,4 +1,4 @@
-⏫ Versionify
+💎⏫ Versionify
 =======
 
 Utility to simplify versioning in the app. Notifies current update status and provides download functionality via URL.

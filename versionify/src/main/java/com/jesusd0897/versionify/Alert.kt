@@ -19,7 +19,6 @@ package com.jesusd0897.versionify
 import android.Manifest
 import android.app.Activity
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 const val VERSION_REQUEST_CODE_W_EXT_STORAGE = 4444
@@ -104,40 +103,6 @@ fun checkVersion(
         title ?: activity.getString(R.string.version_warning_title),
         positiveText ?: activity.getString(R.string.version_download),
         negativeText ?: activity.getString(R.string.version_cancel),
-        icon,
-        showAtMinimum
-    )
-}
-
-/**
- * @param activity Context activity.
- * @param version Web service version.
- * @param title Dialog title.
- * @param positiveText  Actionable button text. By default os "Download".
- * @param negativeText Cancelable button text. By default os "Cancel".
- * @param icon Dialog icon.
- * @param showAtMinimum Indicates if it should be shown when it is a minimum change. By default is false.
- */
-fun checkVersion(
-    activity: Activity,
-    version: Version,
-    @StringRes title: Int? = null,
-    @StringRes positiveText: Int? = null,
-    @StringRes negativeText: Int? = null,
-    @DrawableRes icon: Int? = null,
-    showAtMinimum: Boolean = false
-) {
-    storeApkVersion(activity, version)
-    val buildVersionName =
-        activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
-    val status = versionStatus(activity, buildVersionName)
-    versionWarningDialogIfNeeded(
-        activity,
-        version,
-        status,
-        activity.getString(title ?: R.string.version_warning_title),
-        activity.getString(positiveText ?: R.string.version_download),
-        activity.getString(negativeText ?: R.string.version_cancel),
         icon,
         showAtMinimum
     )
