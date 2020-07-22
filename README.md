@@ -26,6 +26,13 @@ dependencies {
 
 ## Usage
 
+### Maniefiest
+Add the following permissions to the manifest file in your app.
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+
 ### Kotlin
 - Declare version property in your activity.
 ```kotlin
