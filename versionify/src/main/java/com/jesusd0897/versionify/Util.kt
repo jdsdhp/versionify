@@ -18,19 +18,14 @@ package com.jesusd0897.versionify
 
 import android.app.Activity
 import android.app.DownloadManager
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.content.FileProvider
 import com.google.gson.GsonBuilder
 import com.jesusd0897.preferenza.consultPreference
 import com.jesusd0897.preferenza.storePreference
-import java.io.File
 
 private const val GENERAL_KEY_VERSION = "general_version"
 private const val VERSION_KEY = "version_key"
@@ -41,7 +36,11 @@ private const val VERSION_KEY = "version_key"
  * @param manifestPermission Permission from manifest.
  * @param idPermission       Permission ID.
  */
-fun requestDialogPermissions(activity: Activity, manifestPermission: String, idPermission: Int) =
+internal fun requestDialogPermissions(
+    activity: Activity,
+    manifestPermission: String,
+    idPermission: Int
+) =
     ActivityCompat.requestPermissions(activity, arrayOf(manifestPermission), idPermission)
 
 /**
@@ -50,7 +49,7 @@ fun requestDialogPermissions(activity: Activity, manifestPermission: String, idP
  * @param manifestPermissions Permissions from manifest.
  * @param idPermission        Permission ID.
  */
-fun requestDialogPermissions(
+internal fun requestDialogPermissions(
     activity: Activity,
     manifestPermissions: Array<String>,
     idPermission: Int
@@ -80,7 +79,7 @@ fun apkVersion(context: Context): Version? {
  * @param context App context.
  * @param version App version from webservice to store into preferences.
  */
-fun storeApkVersion(context: Context, version: Version) {
+internal fun storeApkVersion(context: Context, version: Version) {
     val gson = GsonBuilder().serializeNulls().setPrettyPrinting().create()
     storePreference(context, GENERAL_KEY_VERSION, hashMapOf(VERSION_KEY to gson.toJson(version)))
 }
