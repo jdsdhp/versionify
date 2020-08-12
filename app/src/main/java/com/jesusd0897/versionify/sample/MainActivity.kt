@@ -20,10 +20,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.jesusd0897.versionify.VERSION_REQUEST_CODE_W_EXT_STORAGE
-import com.jesusd0897.versionify.Version
-import com.jesusd0897.versionify.checkVersion
-import com.jesusd0897.versionify.downloadFile
+import com.jesusd0897.versionify.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -66,12 +63,13 @@ class MainActivity : AppCompatActivity() {
         if (allGrant) when (requestCode) {
             VERSION_REQUEST_CODE_W_EXT_STORAGE -> {
                 version?.let { ver ->
-                    downloadFile(
+                    downloadVersion(
                         context = this,
                         downloadURL = ver.url,
                         title = getString(R.string.app_name),
                         description = getString(com.jesusd0897.versionify.R.string.version_downloading)
-                                + " " + version!!.versionName
+                                + " " + version!!.versionName,
+                        downloadWay = DownloadWay.DOWNLOAD_MANAGER
                     )
                 }
                 return

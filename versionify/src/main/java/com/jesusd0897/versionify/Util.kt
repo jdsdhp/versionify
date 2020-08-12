@@ -30,6 +30,8 @@ import com.jesusd0897.preferenza.storePreference
 private const val GENERAL_KEY_VERSION = "general_version"
 private const val VERSION_KEY = "version_key"
 
+enum class DownloadWay { DOWNLOAD_MANAGER, NAVIGATOR_INTENT }
+
 /**
  * Request permission through Dialog.
  * @param activity           Activity who request.
@@ -113,6 +115,21 @@ fun versionStatus(context: Context, buildVersion: String): VersionStatus {
     }
 }
 
+fun downloadVersion(
+    context: Context,
+    downloadURL: String,
+    title: String,
+    description: String?,
+    downloadWay: DownloadWay = DownloadWay.DOWNLOAD_MANAGER
+) {
+    when (downloadWay) {
+        DownloadWay.DOWNLOAD_MANAGER -> downloadFileThroughDownloadManager(
+            context, downloadURL, title, description
+        )
+        DownloadWay.NAVIGATOR_INTENT -> downloadFileThroughNavigatorIntent(context, downloadURL)
+    }
+}
+
 /**
  * Ask the Download Manager to download a file from an URL.
  * @param context App context.
@@ -120,7 +137,12 @@ fun versionStatus(context: Context, buildVersion: String): VersionStatus {
  * @param title Download manager notification title.
  * @param description Download manager notification description.
  */
-fun downloadFile(context: Context, downloadURL: String, title: String, description: String?) {
+private fun downloadFileThroughDownloadManager(
+    context: Context,
+    downloadURL: String,
+    title: String,
+    description: String?
+) {
     val request = DownloadManager.Request(Uri.parse(downloadURL))
         .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
         .setTitle(title)
@@ -140,5 +162,5 @@ fun downloadFile(context: Context, downloadURL: String, title: String, descripti
  * @param context App context.
  * @param downloadURL Url to download apk file.
  */
-fun downloadFileThroughNavigatorIntent(context: Context, downloadURL: String) =
+private fun downloadFileThroughNavigatorIntent(context: Context, downloadURL: String) =
     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(downloadURL)))
