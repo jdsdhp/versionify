@@ -59,11 +59,18 @@ internal fun requestDialogPermissions(
     ActivityCompat.requestPermissions(activity, manifestPermissions, idPermission)
 
 /**
- * Provide a Version object wish contain full info of current supported
+ * Provide current version name of the app.
+ * @param activity App activity.
+ */
+fun currentApkVersion(activity: Activity) =
+    activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
+
+/**
+ * Provide a stored Version object wish contain full info of current supported
  * version by the web service.
  * @param context App context.
  */
-fun apkVersion(context: Context): Version? {
+fun storedApkVersion(context: Context): Version? {
     val versionString = consultPreference(context, GENERAL_KEY_VERSION, VERSION_KEY, "")
     if (versionString.isEmpty()) return null
     return try {
@@ -100,7 +107,7 @@ fun isVersionOutdated(context: Context, buildVersion: String) =
  * @param buildVersion App version name.
  */
 fun versionStatus(context: Context, buildVersion: String): VersionStatus {
-    val fullVersion = apkVersion(context)
+    val fullVersion = storedApkVersion(context)
     if (fullVersion == null) return VersionStatus.BIG_CHANGE
     else {
         val cloudApkVersion = fullVersion.versionName.trim()
